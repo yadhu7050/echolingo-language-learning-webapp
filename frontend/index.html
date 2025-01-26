@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Language Learning AI</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">LangLearn AI</div>
+        <div class="nav-links">
+            <a href="#home" class="active">Home</a>
+            <a href="#lessons">Lessons</a>
+            <a href="#translator">Translator</a>
+            <a href="#progress">Progress</a>
+            <button id="loginBtn" class="btn-primary">Login</button>
+        </div>
+    </nav>
+
+    <!-- Auth Modal -->
+    <div id="authModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="auth-tabs">
+                <button class="tab active" data-tab="login">Login</button>
+                <button class="tab" data-tab="register">Register</button>
+            </div>
+            <form id="loginForm" class="auth-form">
+                <input type="email" placeholder="Email" required>
+                <input type="password" placeholder="Password" required>
+                <button type="submit" class="btn-primary">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Home Section -->
+        <section id="home" class="section active">
+            <h1>Welcome to AI-Powered Language Learning</h1>
+            <div class="language-grid">
+                <div class="language-card" data-lang="hindi">
+                    <h3>Hindi</h3>
+                    <p>Learn India's most spoken language</p>
+                </div>
+                <!-- Add more language cards -->
+            </div>
+        </section>
+
+        <!-- Lessons Section -->
+        <section id="lessons" class="section">
+            <h2>Your Lessons</h2>
+            <div class="level-tabs">
+                <button class="tab active" data-level="beginner">Beginner</button>
+                <button class="tab" data-level="intermediate">Intermediate</button>
+                <button class="tab" data-level="advanced">Advanced</button>
+            </div>
+            <div class="lessons-grid">
+                <!-- Lessons will be populated here -->
+            </div>
+        </section>
+
+        <!-- Translator Section -->
+        <section id="translator" class="section">
+            <h2>AI Translator</h2>
+            <div class="translator-container">
+                <div class="input-area">
+                    <textarea placeholder="Enter text to translate"></textarea>
+                    <select id="targetLang">
+                        <option value="hindi">Hindi</option>
+                        <option value="tamil">Tamil</option>
+                        <option value="telugu">Telugu</option>
+                        <option value="bengali">Bengali</option>
+                        <option value="marathi">Marathi</option>
+                    </select>
+                    <button class="btn-primary" id="translateBtn">Translate</button>
+                </div>
+                <div class="output-area">
+                    <p id="translationResult"></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Progress Section -->
+        <section id="progress" class="section">
+            <h2>Your Progress</h2>
+            <div class="progress-stats">
+                <div class="stat-card">
+                    <h3>Lessons Completed</h3>
+                    <p id="lessonsCompleted">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Average Score</h3>
+                    <p id="averageScore">0%</p>
+                </div>
+            </div>
+            <div class="progress-chart">
+                <!-- Progress chart will be added here -->
+            </div>
+        </section>
+    </main>
+
+    <script src="js/auth.js"></script>
+    <script src="js/lessons.js"></script>
+    <script src="js/translator.js"></script>
+    <script src="js/progress.js"></script>
+</body>
+</html>
