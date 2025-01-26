@@ -1,27 +1,34 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
+from sqlalchemy.orm import Session
+from database import get_db
+from models import User
 from passlib.context import CryptContext
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 auth_router = APIRouter()
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-# Fake user storage (in a real app, you'd use a database)
-users = {}
-
-class User(BaseModel):
-    email: str
+class UserCreate(BaseModel):
+    email: EmailStr
     password: str
 
 @auth_router.post("/register")
-def register(user: User):
-    if user.email in users:
-        raise HTTPException(status_code=400, detail="User already exists")
+def register(user: UserCreate, db: Session = Depends(get_db)):
+    if db.query(User).filter(User.email == user.email).first():
+        raise HTTPException(status_code=400, detail="Email already registered")
+    
     hashed_password = pwd_context.hash(user.password)
-    users[user.email] = hashed_password
+    db_user = User(email=user.email, hashed_password=hashed_password)
+    
+    db.add(db_user)
+    db.commit()
+    db.refresh(db_user)
+    
     return {"message": "User registered successfully"}
 
 @auth_router.post("/login")
-def login(user: User):
-    if user.email not in users or not pwd_context.verify(user.password, users[user.email]):
+def login(user: UserCreate, db: Session = Depends(get_db)):
+    db_user = db.query(User).filter(User.email == user.email).first()
+    if not db_user or not pwd_context.verify(user.password, db_user.hashed_password):
         raise HTTPException(status_code=400, detail="Invalid credentials")
     return {"message": "Login successful"}
